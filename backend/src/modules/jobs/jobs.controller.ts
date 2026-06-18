@@ -6,6 +6,7 @@ import { JobsService } from './jobs.service';
 export class JobsController {
   constructor(private jobs: JobsService) {}
   @Get() findAll(@Query() q: any, @Req() req: any) { return this.jobs.findAll(q, req.user); }
+  @Get('funnel') funnel(@Query('jobId') jobId?: string) { return this.jobs.funnel(jobId ? +jobId : undefined); }
   @Post() @Roles(UserRole.HR, UserRole.HIRING_MANAGER, UserRole.ADMIN) create(@Body() body: any) { return this.jobs.create(body); }
   @Get(':id') findOne(@Param('id') id: string) { return this.jobs.findOne(+id); }
   @Patch(':id') @Roles(UserRole.HR, UserRole.HIRING_MANAGER, UserRole.ADMIN) update(@Param('id') id: string, @Body() body: any) { return this.jobs.update(+id, body); }
